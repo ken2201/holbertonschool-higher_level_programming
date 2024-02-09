@@ -1,16 +1,19 @@
 #!/usr/bin/python3
 """
 Contains class Rectangle with private attribute width and height,
-public area and perimeter methods, allows printing #, and deletes
+public area and perimeter methods, allows printing #, deletes,
+and has public attribute to keep track of number of instances
 """
 
 
-class Rectangle:
+class Rectangle():
     """
     Defines a class rectangle with private attribute width and height
     Args:
         width (int): width
         height (int): height
+    Attributes:
+        number_of_instances (int): number of instances created and not deleted
     Functions:
         __init__(self, width, height)
         width(self)
@@ -23,10 +26,18 @@ class Rectangle:
         __repr__(self)
         __del__(self)
     """
+    number_of_instances = 0
+
     def __init__(self, width=0, height=0):
         """ Initialize rectangles """
         self.width = width
         self.height = height
+        type(self).number_of_instances += 1
+
+    def __del__(self):
+        """ Deletes instance of class """
+        print("Bye rectangle...")
+        type(self).number_of_instances -= 1
 
     @property
     def width(self):
@@ -76,7 +87,3 @@ class Rectangle:
     def __repr__(self):
         """ String representation to recreate new instance """
         return "Rectangle({:d}, {:d})".format(self.width, self.height)
-
-    def __del__(self):
-        """ Deletes instance of class """
-        print("Bye rectangle...")
