@@ -66,7 +66,7 @@ class Base:
         try:
             with open(direc) as f:
                 contents = f.read()
-        except:
+        except SpecificException:
             return obj
 
         json_data = Base.from_json_string(contents)
