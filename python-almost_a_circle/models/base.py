@@ -66,7 +66,8 @@ class Base:
         try:
             with open(direc) as f:
                 contents = f.read()
-        except SpecificException:
+        except FileNotFoundError:
+            # File not found handling logic
             return obj
 
         json_data = Base.from_json_string(contents)
@@ -74,4 +75,4 @@ class Base:
         for objects in json_data:
             obj.append(cls.create(**objects))
 
-        return obj
+            return obj
