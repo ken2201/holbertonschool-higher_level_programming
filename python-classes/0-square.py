@@ -5,5 +5,7 @@ Defines class Square
 
 
 class Square:
-    """An empty class"""
+    """
+    An empty class that defines a square.
+    """
     pass
