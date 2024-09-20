@@ -1,9 +1,4 @@
 #!/usr/bin/python3
-"""
-Defines class Square
-"""
-
-
 class Square:
-    """An empty class"""
+    """une classe vide qui definit un carré """
     pass
