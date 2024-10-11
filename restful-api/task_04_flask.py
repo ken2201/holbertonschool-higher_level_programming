@@ -1,58 +1,48 @@
-#!/usr/bin/python3
-"""Module task_04_flask: Define Develop a simple API using Python with Flask"""
-
-
 from flask import Flask, jsonify, request
+import json
+
 
 app = Flask(__name__)
-
-users = {
-    "jane": {"username": "jane", "name": "jane",
-             "age": 28, "city": "Los Angeles"},
-    "john": {"username": "john", "name": "John",
-             "age": 30, "city": "New York"}
-}
+users = {}
 
 
 @app.route('/')
 def home():
-    return "Welcome to the Flask API!"
+    return "<p>Welcome to the Flask API!</p>"
 
 
 @app.route('/data')
-def get_users():
-    usernames = list(users.keys())
-    return jsonify(usernames)
+def data():
+    return jsonify(list(users.keys()))
 
 
 @app.route('/status')
 def status():
-    return "OK"
+    return "<p>OK</p>"
 
 
 @app.route('/users/<username>')
-def get_user(username):
-    user = users.get(username)
-    if user:
-        return jsonify(user)
+def user(username):
+    if username in users:
+        return jsonify(users[username])
     else:
         return jsonify({"error": "User not found"}), 404
 
 
 @app.route('/add_user', methods=['POST'])
 def add_user():
-    data = request.get_json()
-    username = data.get('username')
-
-    if not username:
-        return jsonify({"error": "Username is required"}), 400
-
-    if username in users:
-        return jsonify({"error": "User already exists"}), 400
-
-    users[username] = data
-    return jsonify({"message": "User added", "user": data}), 201
+    if not request.json or "username" not in request.json:
+        return jsonify({"error": "User is required"}), 400
+    new_user = request.get_json()
+    username = new_user["username"]
+    users[username] = {
+        "username": new_user.get("username"),
+        "name": new_user.get("name"),
+        "age": new_user.get("age"),
+        "city": new_user.get("city")
+    }
+    return jsonify({"message": "User is added", "user": users[username]}), 201
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
